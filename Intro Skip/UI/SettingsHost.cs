@@ -36,8 +36,7 @@ namespace IntroSkip.UI
 
         public void Dispose()
         {
-            if (BSMLParser.IsSingletonAvailable && BSMLSettings.instance != null)
-                BSMLSettings.instance.RemoveSettingsMenu(this);
+            BSMLSettings.instance.RemoveSettingsMenu(this);
         }
 
         [UIAction("set-intro-skip-toggle")]
