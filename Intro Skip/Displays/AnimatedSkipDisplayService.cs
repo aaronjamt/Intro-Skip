@@ -59,12 +59,18 @@ namespace IntroSkip.Displays
             }
         }
 
+        private Color addAlphaToColor(Color color, float alpha)
+        {
+            color.a = alpha;
+            return color;
+        }
+
         private void AnimateIn()
         {
             if (Created)
             {
                 _timeTweeningManager.KillAllTweens(_skipPromptText!);
-                Tween tween = new FloatTween(_skipPromptText!.color.a, 1f, u => _skipPromptText.color = _skipPromptText.color.ColorWithAlpha(u), 0.75f, EaseType.OutQuart);
+                Tween tween = new FloatTween(_skipPromptText!.color.a, 1f, u => _skipPromptText.color = addAlphaToColor(_skipPromptText.color, u), 0.75f, EaseType.OutQuart);
                 _timeTweeningManager.AddTween(tween, _skipPromptText);
                 _skipPromptObject!.SetActive(true);
             }
@@ -75,7 +81,7 @@ namespace IntroSkip.Displays
             if (Created)
             {
                 _timeTweeningManager.KillAllTweens(_skipPromptText!);
-                Tween tween = new FloatTween(_skipPromptText!.color.a, 0f, u => _skipPromptText.color = _skipPromptText.color.ColorWithAlpha(u), 0.75f, EaseType.OutQuart);
+                Tween tween = new FloatTween(_skipPromptText!.color.a, 0f, u => _skipPromptText.color = addAlphaToColor(_skipPromptText.color, u), 0.75f, EaseType.OutQuart);
                 tween.onCompleted = tween.onKilled = delegate ()
                 {
                     if (_skipPromptObject != null)
