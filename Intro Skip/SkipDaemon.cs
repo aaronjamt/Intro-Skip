@@ -15,7 +15,7 @@ namespace IntroSkip
         private AudioTimeSyncController _audioTimeSyncController;
         private readonly IReadonlyBeatmapData _readonlyBeatmapData;
         private readonly AudioTimeSyncController.InitData _initData;
-        private readonly VRControllersInputManager _vrControllersInputManager;
+        private readonly PlayerVRControllersManager _vrControllersInputManager;
         private readonly Rect _headSpaceRect = new Rect(1, 1, 2, 2);
 
         private float _introSkipTime = -1f;
@@ -27,9 +27,9 @@ namespace IntroSkip
         public bool CanSkip => InIntroPhase || InOutroPhase;
         public bool InIntroPhase => (Utilities.AudioTimeSyncSource(ref _audioTimeSyncController).time < _introSkipTime) && _skippableIntro;
         public bool InOutroPhase => Utilities.AudioTimeSyncSource(ref _audioTimeSyncController).time > _lastObjectSkipTime && Utilities.AudioTimeSyncSource(ref _audioTimeSyncController).time < _outroSkipTime && _skippableOutro;
-        public bool WantsToSkip => _audioTimeSyncController.state == AudioTimeSyncController.State.Playing && (_vrControllersInputManager.TriggerValue(XRNode.LeftHand) >= .8 || _vrControllersInputManager.TriggerValue(XRNode.RightHand) >= .8 || Input.GetKey(KeyCode.I));
+        public bool WantsToSkip => _audioTimeSyncController.state == AudioTimeSyncController.State.Playing && (_vrControllersInputManager.leftHandVRController.triggerValue >= .8 || _vrControllersInputManager.rightHandVRController.triggerValue >= .8 || Input.GetKey(KeyCode.I));
 
-        public SkipDaemon(Config config, SiraLog siraLog, IVRPlatformHelper vrPlatformHelper, ISkipDisplayService skipDisplayService, AudioTimeSyncController audioTimeSyncController, IReadonlyBeatmapData readonlyBeatmapData, VRControllersInputManager vrControllersInputManager, AudioTimeSyncController.InitData initData)
+        public SkipDaemon(Config config, SiraLog siraLog, IVRPlatformHelper vrPlatformHelper, ISkipDisplayService skipDisplayService, AudioTimeSyncController audioTimeSyncController, IReadonlyBeatmapData readonlyBeatmapData, PlayerVRControllersManager vrControllersInputManager, AudioTimeSyncController.InitData initData)
         {
             _config = config;
             _siraLog = siraLog;
